@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::redirect('/', '/dashboard');
+Route::redirect('/', '/register');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
