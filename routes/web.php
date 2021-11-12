@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Publication;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +21,11 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/register');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $publications = Publication::all();
+    return view('dashboard')->with('publications', $publications);
 })->middleware(['auth'])->name('dashboard');
+
+Route::get('/publications', [\App\Http\Controllers\PublicationsController::class, 'index']);
 
 require __DIR__.'/auth.php';
 
