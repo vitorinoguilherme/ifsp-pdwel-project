@@ -17,7 +17,7 @@ class CreatePublicationsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('content');
-            $table->timestamp('date');
+            $table->dateTime('date')->useCurrent();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')
                 ->references('id')
