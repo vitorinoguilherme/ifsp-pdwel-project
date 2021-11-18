@@ -2,7 +2,7 @@
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __($publication->title) }}
+            {{ __('Publicação Atual: ' . $publication->title) }}
         </h2>
     </x-slot>
 
@@ -18,7 +18,7 @@
 
                     <img class="c-publication__avatar" src="https://iconarchive.com/download/i98403/dakirby309/simply-styled/OS-Linux.ico" alt="John Doe">
                     <div>
-                        <strong>{{ $publication->user_id }}</strong>
+                        <strong>{{ app\Models\User::findById($publication->user_id)->name; }}</strong>
                         <p>{{ $publication->date }}</p>
                     </div>
 

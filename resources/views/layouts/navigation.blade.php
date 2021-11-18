@@ -15,6 +15,9 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('publication.index')" :active="request()->routeIs('publications')">
+                        {{ __('Publications') }}
+                    </x-nav-link>
 
                 </div>
             </div>
@@ -36,7 +39,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('publication.index')">
-                            {{ __('Publication') }}
+                            {{ __('Publications') }}
                         </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -81,7 +84,7 @@
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('publication.index')">
-                    {{ __('Publication') }}
+                    {{ __('Publications') }}
                 </x-responsive-nav-link>
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

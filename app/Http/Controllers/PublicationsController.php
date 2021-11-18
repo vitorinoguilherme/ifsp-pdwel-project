@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Publication;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Exception;
 
 class PublicationsController extends Controller
 {
@@ -16,6 +18,7 @@ class PublicationsController extends Controller
     {
         $publications = Publication::all(); //fetch all blog posts from DB
 
+        // return $publications;
 	    return view('publication.index', compact('publications')); //returns the fetched posts
     }
 
@@ -26,7 +29,7 @@ class PublicationsController extends Controller
      */
     public function create()
     {
-        //
+        return view('publication.create');
     }
 
     /**
@@ -37,8 +40,21 @@ class PublicationsController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
-        return view('publications');
+        // dd($request->post());
+
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+        ]);
+
+        $publication = Publication::create([
+            'title' => $request->title,
+            'content'=> $request->content,
+            'user_id'=> Auth::user()->id,
+            'category_id'=> 1,
+        ]);
+
+        return redirect('publications/' . $publication->id);;
     }
 
     /**
@@ -50,6 +66,7 @@ class PublicationsController extends Controller
     public function show($publication_id)
     {
         $publication = Publication::findOrFail($publication_id);
+
         return view('publication.show', compact('publication'));
     }
 
@@ -59,9 +76,17 @@ class PublicationsController extends Controller
      * @param  \App\Models\Publication  $publication
      * @return \Illuminate\Http\Response
      */
-    public function edit(Publication $publication)
+    public function edit($publication_id)
     {
-        //
+        $publication = Publication::findOrFail($publication_id);
+
+        if ($publication->user_id !== Auth::user()->id) {
+            throw new Exception('You must be the author of this publication to edit.');
+        }
+
+        return view('publication.edit', [
+            'publication' => $publication,
+        ]);
     }
 
     /**
@@ -71,9 +96,16 @@ class PublicationsController extends Controller
      * @param  \App\Models\Publication  $publication
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Publication $publication)
+    public function update(Request $request, $publication_id)
     {
-        //
+        $publication = Publication::findOrFail($publication_id);
+
+        $publication->update([
+            'title' => $request->title,
+            'content' => $request->content
+        ]);
+
+        return redirect('publications/' . $publication->id);
     }
 
     /**
