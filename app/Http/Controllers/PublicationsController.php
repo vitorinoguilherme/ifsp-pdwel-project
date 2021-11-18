@@ -15,7 +15,8 @@ class PublicationsController extends Controller
     public function index()
     {
         $publications = Publication::all(); //fetch all blog posts from DB
-	    return $publications; //returns the fetched posts
+
+	    return view('publication.index', compact('publications')); //returns the fetched posts
     }
 
     /**
@@ -46,9 +47,10 @@ class PublicationsController extends Controller
      * @param  \App\Models\Publication  $publication
      * @return \Illuminate\Http\Response
      */
-    public function show(Publication $publication)
+    public function show($publication_id)
     {
-        //
+        $publication = Publication::findOrFail($publication_id);
+        return view('publication.show', compact('publication'));
     }
 
     /**
