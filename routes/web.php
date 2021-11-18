@@ -34,7 +34,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/publications/{publication_id}', [\App\Http\Controllers\PublicationsController::class, 'show'])->name('publication.show'); //show one publication
     Route::get('/publications/{publication_id}/edit', [\App\Http\Controllers\PublicationsController::class, 'edit'])->name('publication.edit'); //shows edit post form
     Route::put('/publications/{publication_id}/edit', [\App\Http\Controllers\PublicationsController::class, 'update']); //commits edited post to the database
-    Route::delete('/publications/{publication_id}', [\App\Http\Controllers\PublicationsController::class, 'destroy']); //deletes post from the database
+    Route::delete('/publications/{publication_id}', [\App\Http\Controllers\PublicationsController::class, 'destroy'])->name('publication.destroy'); //deletes post from the database
 
 });
 

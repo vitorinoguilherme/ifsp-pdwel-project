@@ -8,12 +8,25 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <h3 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+                Criar nova publicação
+            </h3>
+            <a
+                href="/publications/create"
+                class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
+                Adicionar publicação
+            </a>
+
+            <h3 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate text-center">
+                Novas Publicações
+            </h3>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    <div class="publications">
-                        <!-- Publicações da comunidade -->
-                        @foreach($publications as $publication)
-                            <a href="{{ route('publication.show', $publication->id) }}" class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate hover:underline">
+
+                <!-- Publicações da comunidade -->
+                @foreach($publications as $publication)
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        <div class="publications">
+                            <a href="{{ route('publication.show', $publication->id) }}" class="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate hover:underline">
                                     {{ $publication->title }}
 
                             </a>
@@ -33,20 +46,30 @@
                             </div>
                             @if($publication->user_id === Auth::user()->id)
                                 <div class="md:flex md:items-center mb-6">
-                                    <button href="/publications/{{ $publication->id }}/edit" class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+                                    <a
+                                        href="{{ route('publication.edit', $publication->id) }}"
+                                        class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
                                         Editar
-                                    </button>
-                                    <button  class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
-                                        Deletar
-                                    </button>
+                                    </a>
+
+                                    <form action="{{route('publication.destroy',[$publication->id])}}" method="POST">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button
+                                            type="submit"
+                                            class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
+                                            Deletar
+                                        </button>
+                                    </form>
+
                                 </div>
                             @endif
-                        @endforeach
+                        </div>
                     </div>
+                @endforeach
             </div>
         </div>
     </div>
-
 
 
 </x-app-layout>
